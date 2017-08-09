@@ -31,6 +31,6 @@ install:
 
 # Run test
 script: 
-  - nosetests tests/test_skll.py --with-cprofile --cprofile-stats-erase --cprofile-stats-file=profile_skll_246b5ef954_3
-  - python -m properform Push 47.88.50.110:15554 asdf_skll_246b5ef954_3 ./profile_skll_246b5ef954_3
-  #2017-08-09 11:33:23 modified at 0#2017-08-09 11:33:30 modified at 1#2017-08-09 11:33:36 modified at 2#2017-08-09 11:33:41 modified at 3
+  - nosetests tests/test_skll.py --with-cprofile --cprofile-stats-erase --cprofile-stats-file=profile_skll_246b5ef954_4
+  - python -m properform Push 47.88.50.110:15554 asdf_skll_246b5ef954_4 ./profile_skll_246b5ef954_4
+  #2017-08-09 11:33:23 modified at 0#2017-08-09 11:33:30 modified at 1#2017-08-09 11:33:36 modified at 2#2017-08-09 11:33:41 modified at 3#2017-08-09 11:33:49 modified at 4
