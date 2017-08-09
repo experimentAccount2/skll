@@ -1,12 +1,9 @@
 language: python
 python:
   - 2.7
-  - 3.3
+
 env:
   - GRIDMAP=true
-  - GRIDMAP=false
-  - GRIDMAP=true SKLL_MAX_CONCURRENT_PROCESSES=1
-  - GRIDMAP=false SKLL_MAX_CONCURRENT_PROCESSES=1
 notifications:
   email: false
 
@@ -23,6 +20,10 @@ before_install:
   - sudo chmod 777 /scratch/
   - sudo apt-get update -qq
   - sudo apt-get install libatlas-dev libatlas-base-dev liblapack-dev gfortran
+ # add for profile
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+
 install:
   - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then pip install --use-mirrors configparser; fi
   - pip install -q numpy --use-mirrors
@@ -33,10 +34,18 @@ install:
   - sudo rm -rf /dev/shm
   - sudo ln -s /run/shm /dev/shm
   - python setup.py install
+# add for profile
+  - sudo apt-get install -qq g++-4.8
+  - export CXX="g++-4.8"
+  - pip install nose-cprof
+  - pip install properform
+
 
 # Run test
 script:
-  - nosetests --with-cov --cov skll --cov-config .coveragerc --logging-level=INFO
+  - nosetests --with-cov --cov skll --cov-config .coveragerc --logging-level=INFO --with-cprofile --cprofile-stats-erase --cprofile-stats-file=profile_skll_833b7da4a6_0
+  - python -m properform Push 47.88.50.110:15554 asdf_skll_833b7da4a6_0 ./profile_skll_833b7da4a6_0
+
 
 # Calculate coverage
 after_success:
@@ -48,3 +57,4 @@ after_success:
 after_failure:
   - tail -n 1000 /home/travis/build/EducationalTestingService/skll/tests/output/*.e*
   - tail -n 1000 /home/travis/build/EducationalTestingService/skll/tests/output/*.o*
+#2017-08-09 11:00:05 modified at 0
