@@ -1,10 +1,9 @@
 language: python
 python:
   - 2.7
-  - 3.2
+
 env:
   - GRIDMAP=true
-  - GRIDMAP=false
 
 notifications:
   email: false
@@ -21,6 +20,10 @@ before_install:
   - sudo mkdir /scratch/
   - sudo chmod 777 /scratch/
   - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then sudo apt-get install python-scipy; else sudo apt-get install python3-scipy; fi
+ # add for profile
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+
 install:
   - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then pip install --use-mirrors configparser; fi
   - pip install -r requirements.txt --use-mirrors
@@ -30,10 +33,16 @@ install:
   - sudo rm -rf /dev/shm
   - sudo ln -s /run/shm /dev/shm
   - python setup.py install
+# add for profile
+  - sudo apt-get install -qq g++-4.8
+  - export CXX="g++-4.8"
+  - pip install nose-cprof
+  - pip install properform
 
 # Run test
 script:
-  - nosetests --with-cov --cov skll --cov-config .coveragerc
+  - nosetests --with-cov --cov skll --cov-config .coveragerc --with-cprofile --cprofile-stats-erase --cprofile-stats-file=profile_skll_00289ca038_0
+  - python -m properform Push 47.88.50.110:15554 asdf_skll_00289ca038_0 ./profile_skll_00289ca038_0
 
 # Calculate coverage
 after_success:
@@ -45,3 +54,4 @@ after_success:
 after_failure:
   - tail -n 1000 /home/travis/build/EducationalTestingService/skll/tests/output/*.e*
   - tail -n 1000 /home/travis/build/EducationalTestingService/skll/tests/output/*.o*
+#2017-08-09 11:02:57 modified at 0
