@@ -35,12 +35,12 @@ install:
 
 # Run test
 script:
-  - nosetests --with-cov --cov skll --cov-config .coveragerc tests/test_skll.py --with-cprofile --cprofile-stats-erase --cprofile-stats-file=profile_skll_461f189bd6_1
-  - python -m properform Push 47.88.50.110:15554 asdf_skll_461f189bd6_1 ./profile_skll_461f189bd6_1
+  - nosetests --with-cov --cov skll --cov-config .coveragerc tests/test_skll.py --with-cprofile --cprofile-stats-erase --cprofile-stats-file=profile_skll_461f189bd6_2
+  - python -m properform Push 47.88.50.110:15554 asdf_skll_461f189bd6_2 ./profile_skll_461f189bd6_2
 
 
 
 # Calculate coverage
 after_success:
   - coveralls --config_file .coveragerc
-#2017-08-09 11:09:10 modified at 0#2017-08-09 11:09:16 modified at 1
+#2017-08-09 11:09:10 modified at 0#2017-08-09 11:09:16 modified at 1#2017-08-09 11:09:22 modified at 2
